@@ -1,26 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import styled from 'styled-components'
+
+import About from 'views/About'
+import Home from 'views/Home'
+import TopBar from 'components/TopBar'
+import Provider from './provider'
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Router>
+      <Provider>
+        <StyledBackgroundDiv>
+          <TopBar />
+          <Switch>
+            <Route exact path='/'>
+              <Home title={'Lotto - Home'} />
+            </Route>
+            <Route exact path='/about'>
+              <About title={'Lotto - About'} />
+            </Route>
+          </Switch>
+        </StyledBackgroundDiv>
+      </Provider>
+    </Router>
+  )
 }
 
-export default App;
+const StyledBackgroundDiv = styled.div`
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center top;
+`
+
+export default App
