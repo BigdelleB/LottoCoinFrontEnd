@@ -3,6 +3,7 @@ import { Container, Spacer } from 'react-neu'
 
 import Page from 'components/Page'
 import HomeHeader from './components/HomeHeader'
+import HomeContainer from './components/HomeContainer'
 
 const Home = (props: { title: string }) => {
   useEffect(() => {
@@ -14,6 +15,7 @@ const Home = (props: { title: string }) => {
       <Container size='lg'>
         <HomeHeader />
         <Spacer size='lg' />
+        <HomeContainer />
       </Container>
     </Page>
   )

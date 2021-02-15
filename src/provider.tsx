@@ -4,6 +4,7 @@ import { ThemeProvider } from 'react-neu'
 
 import { BalancesProvider } from 'contexts/Balances'
 import { WalletProvider } from 'contexts/Wallet'
+import { TransactionWatcherProvider } from 'contexts/TransactionWatcher'
 
 const Providers: React.FC = ({ children }) => {
   const { dark: darkTheme, light: lightTheme } = useMemo(() => {
@@ -13,7 +14,9 @@ const Providers: React.FC = ({ children }) => {
   return (
     <ThemeProvider darkTheme={darkTheme} lightTheme={lightTheme}>
       <WalletProvider>
-        <BalancesProvider>{children}</BalancesProvider>
+        <BalancesProvider>
+          <TransactionWatcherProvider>{children}</TransactionWatcherProvider>
+        </BalancesProvider>
       </WalletProvider>
     </ThemeProvider>
   )

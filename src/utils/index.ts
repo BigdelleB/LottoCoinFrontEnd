@@ -5,6 +5,8 @@ import { provider, TransactionReceipt } from 'web3-core'
 import { AbiItem } from 'web3-utils'
 
 import ERC20ABI from 'blockchain/abi/ERC20.json'
+import LottoABI from 'blockchain/abi/LottoToken.json'
+import { lttTokenAddress } from 'constants/ethContractAddresses'
 
 const sleep = (ms: number) => {
   return new Promise((resolve) => setTimeout(resolve, ms))
@@ -102,10 +104,52 @@ export const getBalance = async (
   }
 }
 
+export const purchaseTicket = async (
+  provider: provider,
+  userAddress: string
+): Promise<string> => {
+  const tokenContract = getLottoContract(provider, lttTokenAddress as string)
+  console.log(tokenContract)
+  try {
+    const balance: string = await tokenContract.methods.BuyTicket().send({
+      from: userAddress,
+      value: new BigNumber(10).pow(15).multipliedBy(11),
+    })
+    console.log(balance)
+    return balance
+  } catch (e) {
+    return '0'
+  }
+}
+
+export const ExchangeTicket = async (
+  provider: provider,
+  userAddress: string
+): Promise<string> => {
+  const tokenContract = getLottoContract(provider, lttTokenAddress as string)
+  try {
+    const balance: string = await tokenContract.methods.ExchangeTicket().send({
+      from: userAddress,
+    })
+    return balance
+  } catch (e) {
+    return '0'
+  }
+}
+
 export const getERC20Contract = (provider: provider, address: string) => {
   const web3 = new Web3(provider)
   const contract = new web3.eth.Contract(
-    (ERC20ABI.abi as unknown) as AbiItem,
+    (ERC20ABI as unknown) as AbiItem,
+    address
+  )
+  return contract
+}
+
+export const getLottoContract = (provider: provider, address: string) => {
+  const web3 = new Web3(provider)
+  const contract = new web3.eth.Contract(
+    (LottoABI as unknown) as AbiItem,
     address
   )
   return contract
