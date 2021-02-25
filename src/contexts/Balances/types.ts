@@ -5,4 +5,5 @@ export interface ContextValues {
   lttBalance?: BigNumber
   daiBalance?: BigNumber
   usdcBalance?: BigNumber
+  gameId?: string
 }

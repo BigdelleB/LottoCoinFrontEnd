@@ -4,7 +4,7 @@ import { provider } from 'web3-core'
 
 import Context from './Context'
 import useWallet from 'hooks/useWallet'
-import { getBalance, getEthBalance } from 'utils/index'
+import { getBalance, getEthBalance, getGameId } from 'utils/index'
 import {
   lttTokenAddress,
   daiTokenAddress,
@@ -16,6 +16,7 @@ const Provider: React.FC = ({ children }) => {
   const [lttBalance, setLttBalance] = useState<BigNumber>()
   const [daiBalance, setDaiBalance] = useState<BigNumber>()
   const [usdcBalance, setUsdcBalance] = useState<BigNumber>()
+  const [gameId, setGameId] = useState<string>('')
 
   const {
     account,
@@ -34,6 +35,7 @@ const Provider: React.FC = ({ children }) => {
         getBalance(provider, lttTokenAddress as string, userAddress),
         getBalance(provider, daiTokenAddress as string, userAddress),
         getBalance(provider, usdcTokenAddress as string, userAddress),
+        getGameId(provider),
       ])
 
       setEthBalance(
@@ -48,8 +50,9 @@ const Provider: React.FC = ({ children }) => {
       setUsdcBalance(
         new BigNumber(balances[3]).dividedBy(new BigNumber(10).pow(6))
       )
+      setGameId(balances[4])
     },
-    [setEthBalance, setLttBalance, setDaiBalance, setUsdcBalance]
+    [setEthBalance, setLttBalance, setDaiBalance, setUsdcBalance, setGameId]
   )
 
   useEffect(() => {
@@ -79,6 +82,7 @@ const Provider: React.FC = ({ children }) => {
         lttBalance,
         daiBalance,
         usdcBalance,
+        gameId,
       }}
     >
       {children}

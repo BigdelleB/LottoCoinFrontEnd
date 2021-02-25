@@ -104,18 +104,28 @@ export const getBalance = async (
   }
 }
 
+export const getGameId = async (provider: provider): Promise<string> => {
+  const tokenContract = getLottoContract(provider, lttTokenAddress as string)
+  try {
+    const gameId: string = await tokenContract.methods.GameId().call()
+    return gameId
+  } catch (e) {
+    console.log(e)
+    return ''
+  }
+}
+
 export const purchaseTicket = async (
   provider: provider,
   userAddress: string
 ): Promise<string> => {
   const tokenContract = getLottoContract(provider, lttTokenAddress as string)
-  console.log(tokenContract)
   try {
+    const minBuyAmount = await tokenContract.methods.MinBuyAmount().call()
     const balance: string = await tokenContract.methods.BuyTicket().send({
       from: userAddress,
-      value: new BigNumber(10).pow(15).multipliedBy(11),
+      value: minBuyAmount,
     })
-    console.log(balance)
     return balance
   } catch (e) {
     return '0'
